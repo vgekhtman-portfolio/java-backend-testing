@@ -1,4 +1,3 @@
-# Build docs for the phased build — never shipped
 .docs-agent/
 
 # Gradle
