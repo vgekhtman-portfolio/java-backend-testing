@@ -26,6 +26,8 @@ subprojects {
 
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
+        // So every module's tests resolve "docker-compose.yml" the same way, regardless of module depth.
+        workingDir = rootProject.projectDir
         testLogging {
             events("passed", "skipped", "failed")
         }

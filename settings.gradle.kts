@@ -20,4 +20,5 @@ dependencyResolutionManagement {
 include(
     "proto",
     "sut",
+    "shared-test-utils",
 )
