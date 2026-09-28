@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package inventory;
+
+option java_multiple_files = true;
+option java_package = "com.vgekhtman.automation.inventory.grpc";
+
+service InventoryService {
+  rpc CheckStock (CheckStockRequest) returns (CheckStockResponse);
+  rpc ReserveStock (ReserveStockRequest) returns (ReserveStockResponse);
+}
+
+message CheckStockRequest {
+  string product_id = 1;
+}
+
+message CheckStockResponse {
+  string product_id = 1;
+  int32 available_quantity = 2;
+}
+
+message ReserveStockRequest {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message ReserveStockResponse {
+  bool success = 1;
+  int32 remaining_quantity = 2;
+  string message = 3;
+}

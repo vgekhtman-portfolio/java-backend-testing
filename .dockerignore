@@ -1,0 +1,11 @@
+.git
+.gitignore
+.gradle
+**/build
+.docs-agent
+.idea
+*.md
+docs
+tests
+shared-test-utils
+.github
