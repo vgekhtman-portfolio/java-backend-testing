@@ -22,4 +22,5 @@ include(
     "sut",
     "shared-test-utils",
     "tests:rest-public",
+    "tests:graphql-public",
 )
