@@ -27,5 +27,4 @@ reliability caveats (cold starts, occasional downtime, no uptime guarantee). Eve
 own booking as a fixture and only ever asserts against data it created itself — nothing assumes booking id
 `1` (or any other id) exists globally, since that data is shared with every other user of this public demo
 API and can't be relied on to be stable. A failure here may reflect the dependency being down or
-rate-limiting rather than a defect in the test code — see phase 12's CI design, which treats this module's
-failures as non-blocking for exactly this reason.
+rate-limiting rather than a defect in the test code.
