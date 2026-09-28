@@ -21,4 +21,5 @@ include(
     "proto",
     "sut",
     "shared-test-utils",
+    "tests:rest-public",
 )
