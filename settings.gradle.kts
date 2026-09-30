@@ -24,4 +24,5 @@ include(
     "tests:rest-public",
     "tests:graphql-public",
     "tests:websocket-public",
+    "tests:rest-custom",
 )
