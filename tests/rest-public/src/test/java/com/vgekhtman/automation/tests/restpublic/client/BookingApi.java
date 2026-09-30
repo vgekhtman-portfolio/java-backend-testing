@@ -24,7 +24,8 @@ public final class BookingApi {
     }
 
     public static int createBooking(Booking booking) {
-        return createBookingResponse(booking).then().statusCode(200)
+        return createBookingResponse(booking).then()
+                .statusCode(200)
                 .extract().path("bookingid");
     }
 
@@ -41,7 +42,8 @@ public final class BookingApi {
     public static String authenticate() {
         return given().contentType(JSON).body(Map.of("username", "admin", "password", "password123"))
                 .when().post("/auth")
-                .then().statusCode(200)
+                .then()
+                .statusCode(200)
                 .extract().path("token");
     }
 
