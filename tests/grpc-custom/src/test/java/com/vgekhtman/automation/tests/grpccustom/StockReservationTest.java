@@ -1,9 +1,9 @@
 package com.vgekhtman.automation.tests.grpccustom;
 
 import com.vgekhtman.automation.inventory.grpc.ReserveStockResponse;
-import com.vgekhtman.automation.tests.grpccustom.client.InventoryClient;
 import com.vgekhtman.automation.testutils.CustomSutExtension;
 import com.vgekhtman.automation.testutils.data.InventoryRequests;
+import com.vgekhtman.automation.testutils.grpc.InventoryClient;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterAll;

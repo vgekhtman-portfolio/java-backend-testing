@@ -26,4 +26,5 @@ include(
     "tests:websocket-public",
     "tests:rest-custom",
     "tests:grpc-custom",
+    "tests:db-verification",
 )

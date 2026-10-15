@@ -1,4 +1,4 @@
-package com.vgekhtman.automation.tests.grpccustom.client;
+package com.vgekhtman.automation.testutils.grpc;
 
 import com.vgekhtman.automation.inventory.grpc.CheckStockRequest;
 import com.vgekhtman.automation.inventory.grpc.CheckStockResponse;
