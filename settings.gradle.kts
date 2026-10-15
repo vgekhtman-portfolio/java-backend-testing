@@ -27,4 +27,5 @@ include(
     "tests:rest-custom",
     "tests:grpc-custom",
     "tests:db-verification",
+    "tests:contract",
 )
