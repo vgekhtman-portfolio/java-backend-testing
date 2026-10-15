@@ -5,9 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vgekhtman.automation.inventory.grpc.CheckStockResponse;
 import com.vgekhtman.automation.testutils.data.InventoryRequests;
 import com.vgekhtman.automation.testutils.grpc.InventoryClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>Tagged {@code custom-sut} (blocks CI same as the real custom-SUT suites) and {@code framework}
  * (a harness self-test, not a demonstrated protocol/scenario test).
  */
+@Epic("Test Infrastructure")
+@Feature("SUT orchestration")
+@Story("Smoke checks")
 @Tag("custom-sut")
 @Tag("framework")
 @ExtendWith(CustomSutExtension.class)
@@ -50,12 +58,16 @@ class CustomSutSmokeTest {
         CustomSut.paymentStubs().reset();
     }
 
+    @DisplayName("TC-INFRA-002: orders-service responds on its REST endpoint")
+    @Description("Calls GET /orders on the endpoint the harness resolved for the running stack.")
     @Test
     void ordersServiceRespondsOnRest() throws Exception {
         HttpResponse<String> response = get(CustomSut.restBaseUrl() + "/orders");
         assertThat(response.statusCode()).isEqualTo(200);
     }
 
+    @DisplayName("TC-INFRA-003: orders-service responds on its gRPC endpoint")
+    @Description("Calls CheckStock through the shared gRPC client against the resolved gRPC endpoint.")
     @Test
     void ordersServiceRespondsOnGrpc() {
         CheckStockResponse response = inventory.checkStock(
@@ -63,12 +75,16 @@ class CustomSutSmokeTest {
         assertThat(response.getAvailableQuantity()).isEqualTo(100);
     }
 
+    @DisplayName("TC-INFRA-004: the WireMock admin API is reachable")
+    @Description("Lists WireMock's stub mappings through the admin API resolved by the harness.")
     @Test
     void wireMockAdminIsReachable() throws Exception {
         HttpResponse<String> response = get(CustomSut.wiremockAdminBaseUrl() + "/mappings");
         assertThat(response.statusCode()).isEqualTo(200);
     }
 
+    @DisplayName("TC-INFRA-005: a payment stub can be registered and then reset to the default")
+    @Description("Counts WireMock mappings before and after registering an override and after resetting it.")
     @Test
     void stubCanBeRegisteredThenReset() throws Exception {
         assertThat(mappingsCount()).isEqualTo(1); // just the shipped charge-success.json
@@ -80,6 +96,8 @@ class CustomSutSmokeTest {
         assertThat(mappingsCount()).isEqualTo(1); // back to just the shipped default
     }
 
+    @DisplayName("TC-INFRA-006: Postgres credentials are derived from the running container")
+    @Description("The harness reads the database user, password and name from the container's own environment instead of duplicating them.")
     @Test
     void postgresCredentialsAreDerivedFromTheRunningContainer() {
         // Values are read off the running postgres container's own env, not a literal duplicated in

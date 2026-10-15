@@ -1,6 +1,9 @@
 package com.vgekhtman.automation.tests.dbverification.db;
 
 import com.vgekhtman.automation.testutils.CustomSut;
+import io.qameta.allure.Allure;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +16,8 @@ import java.util.UUID;
 
 /** Direct JDBC access to the SUT's Postgres - the independent view of what was actually persisted. */
 public final class Database {
+
+    private static final Logger log = LoggerFactory.getLogger(Database.class);
 
     /** A row of the {@code orders} table. */
     public record OrderRow(UUID id, String customerId, String productId, int quantity, String status,
@@ -33,15 +38,18 @@ public final class Database {
             statement.setObject(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 if (!rs.next()) {
+                    logQuery(ORDER_BY_ID, id, "no rows");
                     return Optional.empty();
                 }
-                return Optional.of(new OrderRow(
+                OrderRow row = new OrderRow(
                         rs.getObject("id", UUID.class),
                         rs.getString("customer_id"),
                         rs.getString("product_id"),
                         rs.getInt("quantity"),
                         rs.getString("status"),
-                        rs.getObject("created_at", OffsetDateTime.class)));
+                        rs.getObject("created_at", OffsetDateTime.class));
+                logQuery(ORDER_BY_ID, id, row.toString());
+                return Optional.of(row);
             }
         } catch (SQLException e) {
             throw new IllegalStateException("failed to query orders by id", e);
@@ -54,7 +62,9 @@ public final class Database {
             statement.setString(1, productId);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
-                return rs.getLong(1);
+                long count = rs.getLong(1);
+                logQuery(COUNT_ORDERS_BY_PRODUCT, productId, "count = " + count);
+                return count;
             }
         } catch (SQLException e) {
             throw new IllegalStateException("failed to count orders by product", e);
@@ -69,11 +79,20 @@ public final class Database {
                 if (!rs.next()) {
                     throw new IllegalStateException("no inventory row for " + productId);
                 }
-                return rs.getInt(1);
+                int quantity = rs.getInt(1);
+                logQuery(INVENTORY_QUANTITY, productId, "quantity = " + quantity);
+                return quantity;
             }
         } catch (SQLException e) {
             throw new IllegalStateException("failed to query inventory", e);
         }
+    }
+
+    /** Logs the query and attaches its SQL, parameter and result to the Allure report. */
+    private static void logQuery(String sql, Object parameter, String result) {
+        log.info("SQL query with [{}] -> {}", parameter, result);
+        log.debug("SQL: {}", sql);
+        Allure.attachment("SQL query", "%s%nparameter: %s%nresult: %s".formatted(sql, parameter, result));
     }
 
     private static Connection connect() throws SQLException {

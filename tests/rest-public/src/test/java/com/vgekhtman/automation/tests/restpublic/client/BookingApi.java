@@ -1,5 +1,6 @@
 package com.vgekhtman.automation.tests.restpublic.client;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -13,6 +14,8 @@ public final class BookingApi {
 
     static {
         RestAssured.baseURI = env("REST_PUBLIC_BASE_URL", "https://restful-booker.herokuapp.com");
+        // Every request/response pair is attached to the Allure report.
+        RestAssured.filters(new AllureRestAssured());
     }
 
     private BookingApi() {
@@ -24,36 +27,79 @@ public final class BookingApi {
     }
 
     public static int createBooking(Booking booking) {
-        return createBookingResponse(booking).then()
+        return createBookingResponse(booking)
+                .then()
                 .statusCode(200)
-                .extract().path("bookingid");
+                .extract()
+                .path("bookingid");
     }
 
     public static Response createBookingResponse(Booking booking) {
-        return given().contentType(JSON).body(booking)
-                .when().post("/booking");
+        return given()
+                .log().method()
+                .log().uri()
+                .contentType(JSON)
+                .body(booking)
+                .when()
+                .post("/booking")
+                .then()
+                .log().status()
+                .extract()
+                .response();
     }
 
     public static Response getBooking(int id) {
         return given()
-                .when().get("/booking/{id}", id);
+                .log().method()
+                .log().uri()
+                .when()
+                .get("/booking/{id}", id)
+                .then()
+                .log().status()
+                .extract()
+                .response();
     }
 
     public static String authenticate() {
-        return given().contentType(JSON).body(Map.of("username", "admin", "password", "password123"))
-                .when().post("/auth")
+        return given()
+                .log().method()
+                .log().uri()
+                .contentType(JSON)
+                .body(Map.of("username", "admin", "password", "password123"))
+                .when()
+                .post("/auth")
                 .then()
+                .log().status()
                 .statusCode(200)
-                .extract().path("token");
+                .extract()
+                .path("token");
     }
 
     public static Response updateBooking(int id, String token, Booking booking) {
-        return given().cookie("token", token).contentType(JSON).body(booking)
-                .when().put("/booking/{id}", id);
+        return given()
+                .log().method()
+                .log().uri()
+                .cookie("token", token)
+                .contentType(JSON)
+                .body(booking)
+                .when()
+                .put("/booking/{id}", id)
+                .then()
+                .log().status()
+                .extract()
+                .response();
     }
 
     public static Response deleteBooking(int id, String token) {
-        return given().cookie("token", token)
-                .when().delete("/booking/{id}", id);
+        return given()
+                .log().method()
+                .log().uri()
+                .cookie("token", token)
+                .when()
+                .delete("/booking/{id}", id)
+                .then()
+                .log().status()
+                .extract()
+                .response();
     }
 }

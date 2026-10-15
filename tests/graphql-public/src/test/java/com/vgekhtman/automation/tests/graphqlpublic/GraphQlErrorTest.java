@@ -1,6 +1,11 @@
 package com.vgekhtman.automation.tests.graphqlpublic;
 
 import com.vgekhtman.automation.tests.graphqlpublic.client.GraphQlClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -15,9 +20,14 @@ import static org.hamcrest.Matchers.not;
  * API can't handle) returns HTTP 200 with a populated {@code errors} array - the well-known GraphQL gotcha
  * of "200 doesn't mean success". Both are demonstrated below.
  */
+@Epic("API Protocols")
+@Feature("GraphQL")
+@Story("Error model")
 @Tag("public-api")
 class GraphQlErrorTest {
 
+    @DisplayName("TC-GRAPHQL-004: a resolution failure returns HTTP 200 with an errors array")
+    @Description("A schema-valid query that fails during resolution still returns 200, with the failure in the errors array.")
     @Test
     void aQueryThatFailsDuringResolutionReturns200WithAnErrorsArray() {
         String query = "query { character(id: \"not-a-number\") { name } }";
@@ -28,6 +38,8 @@ class GraphQlErrorTest {
                 .body("errors[0].message", not(blankOrNullString()));
     }
 
+    @DisplayName("TC-GRAPHQL-005: a schema validation failure returns HTTP 400")
+    @Description("A query that fails schema validation is rejected before execution with a 4xx status.")
     @Test
     void aQueryThatFailsSchemaValidationReturnsANonSuccessStatusInstead() {
         String query = "query { character(id: 1) { thisFieldDoesNotExist } }";

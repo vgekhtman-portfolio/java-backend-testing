@@ -9,6 +9,10 @@ import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import com.vgekhtman.automation.tests.contract.PactFiles;
 import com.vgekhtman.automation.testutils.CustomSut;
 import com.vgekhtman.automation.testutils.CustomSutExtension;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
@@ -25,6 +29,9 @@ import java.util.UUID;
  * verification of live behaviour, not a mock. Each interaction's provider state is established by writing
  * to the service's Postgres directly, so the database holds exactly what the consumer's expectation assumes.
  */
+@Epic("API Protocols")
+@Feature("Contract (Pact)")
+@Story("Provider verification")
 @Tag("custom-sut")
 @Order(2)
 @Provider("orders-service")
@@ -44,6 +51,7 @@ class OrdersProviderVerificationTest {
         context.setTarget(new HttpTestTarget(service.getHost(), service.getPort()));
     }
 
+    @Description("the real orders-service honours each interaction in the consumer pact. Replays every interaction in the generated pact against the running service; provider states are set up by writing rows directly to Postgres.")
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void verifyInteraction(PactVerificationContext context) {

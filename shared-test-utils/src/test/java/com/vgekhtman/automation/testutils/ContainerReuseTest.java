@@ -1,5 +1,10 @@
 package com.vgekhtman.automation.testutils;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * should block just as hard) and {@code framework} (an independent axis marking this as a harness
  * self-test rather than a demonstrated protocol/scenario test).
  */
+@Epic("Test Infrastructure")
+@Feature("SUT orchestration")
+@Story("Stack lifecycle")
 @Tag("custom-sut")
 @Tag("framework")
 @ExtendWith(CustomSutExtension.class)
@@ -25,6 +33,8 @@ class ContainerReuseTest {
 
     private static final Logger log = LoggerFactory.getLogger(ContainerReuseTest.class);
 
+    @DisplayName("TC-INFRA-001: the SUT stack is started once and shared across test classes")
+    @Description("Asserts the compose stack was started exactly once in the JVM and that its orders-service container is the same one every test class sees.")
     @Test
     void composeStackIsStartedExactlyOnceAndSharedAcrossTestClasses() {
         assertThat(CustomSut.startCount())

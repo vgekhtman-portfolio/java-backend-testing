@@ -2,6 +2,7 @@ package com.vgekhtman.automation.tests.dbverification.client;
 
 import com.vgekhtman.automation.testutils.CustomSut;
 import com.vgekhtman.automation.testutils.data.OrderRequest;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -14,7 +15,18 @@ public final class OrdersApi {
     }
 
     public static Response createOrder(OrderRequest request) {
-        return given().baseUri(CustomSut.restBaseUrl()).contentType(JSON).body(request)
-                .when().post("/orders");
+        return given()
+                .filter(new AllureRestAssured())
+                .log().method()
+                .log().uri()
+                .baseUri(CustomSut.restBaseUrl())
+                .contentType(JSON)
+                .body(request)
+                .when()
+                .post("/orders")
+                .then()
+                .log().status()
+                .extract()
+                .response();
     }
 }

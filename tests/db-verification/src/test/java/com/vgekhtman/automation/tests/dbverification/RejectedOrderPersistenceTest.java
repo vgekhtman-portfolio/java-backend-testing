@@ -4,6 +4,11 @@ import com.vgekhtman.automation.tests.dbverification.client.OrdersApi;
 import com.vgekhtman.automation.tests.dbverification.db.Database;
 import com.vgekhtman.automation.testutils.CustomSutExtension;
 import com.vgekhtman.automation.testutils.data.OrderRequests;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +23,15 @@ import static org.assertj.core.api.Assertions.assertThat;
  * what other tests have inserted. A valid order with the same id is created afterwards as a control, to
  * show the count query can see a row that does exist - otherwise "0 rows" could simply be a broken check.
  */
+@Epic("API Protocols")
+@Feature("Database")
+@Story("Absence of side effects")
 @Tag("custom-sut")
 @ExtendWith(CustomSutExtension.class)
 class RejectedOrderPersistenceTest {
 
+    @DisplayName("TC-DB-003: an order with a blank customer id is rejected and leaves no row")
+    @Description("Proves the absence of a side effect, with a control order showing the count query can see rows.")
     @Test
     void orderWithBlankCustomerIdIsRejectedAndNotPersisted() {
         String productId = "absent-" + UUID.randomUUID();
@@ -33,6 +43,8 @@ class RejectedOrderPersistenceTest {
         assertControlOrderIsVisible(productId);
     }
 
+    @DisplayName("TC-DB-004: an order with a non-positive quantity is rejected and leaves no row")
+    @Description("Same absence check for the quantity validation rule.")
     @Test
     void orderWithNonPositiveQuantityIsRejectedAndNotPersisted() {
         String productId = "absent-" + UUID.randomUUID();

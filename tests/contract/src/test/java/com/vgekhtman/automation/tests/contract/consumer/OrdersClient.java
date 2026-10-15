@@ -2,6 +2,7 @@ package com.vgekhtman.automation.tests.contract.consumer;
 
 import com.vgekhtman.automation.tests.contract.consumer.model.OrderRequest;
 import com.vgekhtman.automation.tests.contract.consumer.model.OrderResponse;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
 
 import java.util.Optional;
@@ -19,7 +20,8 @@ public final class OrdersClient {
     }
 
     public OrderResponse createOrder(OrderRequest orderRequest) {
-        Response response = given().baseUri(baseUrl).contentType(JSON).body(orderRequest)
+        Response response = given().filter(new AllureRestAssured()).baseUri(baseUrl)
+                .contentType(JSON).body(orderRequest)
                 .when().post("/orders");
         if (response.statusCode() != 201) {
             throw new IllegalStateException("unexpected status " + response.statusCode());
@@ -29,7 +31,7 @@ public final class OrdersClient {
 
     /** @return the order, or empty if the API answers 404. */
     public Optional<OrderResponse> findOrder(String id) {
-        Response response = given().baseUri(baseUrl)
+        Response response = given().filter(new AllureRestAssured()).baseUri(baseUrl)
                 .when().get("/orders/{id}", id);
         return switch (response.statusCode()) {
             case 200 -> Optional.of(response.as(OrderResponse.class));

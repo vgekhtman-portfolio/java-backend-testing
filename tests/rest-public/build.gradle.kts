@@ -3,6 +3,7 @@ val junitVersion = "6.1.3"
 
 dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.qameta.allure:allure-rest-assured")
     // Rest-Assured needs an object mapper on the classpath to (de)serialize the Booking/BookingDates
     // records used as request/response bodies.
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")

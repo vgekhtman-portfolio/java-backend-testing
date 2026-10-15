@@ -9,6 +9,7 @@ dependencies {
     // The hypothetical consumer client is built on Rest-Assured, which needs an object mapper for its
     // JSON request/response bodies.
     testImplementation("io.rest-assured:rest-assured:6.0.1")
+    testImplementation("io.qameta.allure:allure-rest-assured")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
     // Provider states insert rows straight into Postgres.
     testRuntimeOnly("org.postgresql:postgresql:42.7.13")

@@ -1,0 +1,27 @@
+<!--
+  Shared by every test module (added as a test resource directory by the root build file).
+  INFO: what a test is doing and the key actions it takes. DEBUG: full request/response payloads.
+  Set TEST_LOG_LEVEL=DEBUG in the environment to see the payloads; full evidence is also attached to the
+  Allure report, so the log stays lean by default.
+-->
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{30} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="com.vgekhtman.automation" level="${TEST_LOG_LEVEL:-INFO}"/>
+
+    <!-- Third-party libraries: only warnings and errors. -->
+    <logger name="org.testcontainers" level="WARN"/>
+    <logger name="tc" level="WARN"/>
+    <logger name="com.github.dockerjava" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="io.qameta.allure" level="WARN"/>
+    <logger name="au.com.dius.pact" level="WARN"/>
+</configuration>
