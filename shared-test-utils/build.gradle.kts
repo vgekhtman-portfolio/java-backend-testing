@@ -21,3 +21,6 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.27.7")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
 }
+
+// Tests run against the custom SUT stack: declare what feeds it as test inputs.
+apply(from = rootProject.file("gradle/sut-backed.gradle.kts"))

@@ -25,3 +25,6 @@ tasks.test {
     outputs.dir(pactDir)
     doFirst { delete(pactDir) }
 }
+
+// Tests run against the custom SUT stack: declare what feeds it as test inputs.
+apply(from = rootProject.file("gradle/sut-backed.gradle.kts"))
