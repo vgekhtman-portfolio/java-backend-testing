@@ -12,11 +12,12 @@ dependencies {
     api("org.testcontainers:testcontainers:$testcontainersVersion")
     api("org.wiremock:wiremock:3.13.2")
 
+    // Transport for InventoryClient's channel; consumers get it on their runtime classpath transitively.
+    implementation("io.grpc:grpc-netty-shaded:1.83.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitVersion")
     testImplementation("org.assertj:assertj-core:3.27.7")
-    testImplementation("io.grpc:grpc-netty-shaded:1.83.1")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
 }

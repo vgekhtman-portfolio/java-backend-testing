@@ -3,10 +3,8 @@ package com.vgekhtman.automation.testutils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vgekhtman.automation.inventory.grpc.CheckStockResponse;
-import com.vgekhtman.automation.inventory.grpc.InventoryServiceGrpc;
 import com.vgekhtman.automation.testutils.data.InventoryRequests;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import com.vgekhtman.automation.testutils.grpc.InventoryClient;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,18 +33,16 @@ class CustomSutSmokeTest {
 
     private static final HttpClient http = HttpClient.newHttpClient();
     private static final ObjectMapper json = new ObjectMapper();
-    private static ManagedChannel channel;
+    private static InventoryClient inventory;
 
     @BeforeAll
-    static void openGrpcChannel() {
-        channel = ManagedChannelBuilder.forAddress(CustomSut.grpcHost(), CustomSut.grpcPort())
-                .usePlaintext()
-                .build();
+    static void connectGrpc() {
+        inventory = InventoryClient.connect();
     }
 
     @AfterAll
-    static void closeGrpcChannel() {
-        channel.shutdownNow();
+    static void disconnectGrpc() {
+        inventory.close();
     }
 
     @AfterEach
@@ -62,8 +58,8 @@ class CustomSutSmokeTest {
 
     @Test
     void ordersServiceRespondsOnGrpc() {
-        InventoryServiceGrpc.InventoryServiceBlockingStub stub = InventoryServiceGrpc.newBlockingStub(channel);
-        CheckStockResponse response = stub.checkStock(InventoryRequests.checkStock().withProductId("prod-abc").build());
+        CheckStockResponse response = inventory.checkStock(
+                InventoryRequests.checkStock().withProductId("prod-abc").build());
         assertThat(response.getAvailableQuantity()).isEqualTo(100);
     }
 
