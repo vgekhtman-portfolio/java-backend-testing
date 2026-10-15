@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.OptionalInt;
 
+/**
+ * Server implementation of the {@code InventoryService} defined in {@code proto/.../inventory.proto}.
+ * The request/response messages and the {@code InventoryServiceImplBase} class extended here are generated
+ * from that file at build time (into {@code proto/build/generated}), so they are not in the source tree.
+ */
 public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceImplBase {
 
     private static final Logger log = LoggerFactory.getLogger(InventoryServiceImpl.class);

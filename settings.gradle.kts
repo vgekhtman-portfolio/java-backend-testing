@@ -25,4 +25,5 @@ include(
     "tests:graphql-public",
     "tests:websocket-public",
     "tests:rest-custom",
+    "tests:grpc-custom",
 )
