@@ -1,0 +1,12 @@
+# Test-only override, applied on top of docker-compose.yml by shared-test-utils (not by a plain
+# `docker compose up`). The tests reach every service through Testcontainers' proxy ports, so the fixed
+# host ports published by the base file are unnecessary here - and would make concurrent stacks (parallel
+# test tasks, or a manually started stack) collide. `!reset` is required because compose merges `ports`
+# lists by appending (needs Docker Compose 2.24+).
+services:
+  postgres:
+    ports: !reset []
+  wiremock:
+    ports: !reset []
+  orders-service:
+    ports: !reset []

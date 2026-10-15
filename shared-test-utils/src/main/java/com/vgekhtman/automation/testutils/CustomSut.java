@@ -53,7 +53,8 @@ public final class CustomSut {
 
         log.info("starting custom SUT compose stack (postgres + wiremock + orders-service)");
 
-        ComposeContainer environment = new ComposeContainer(new File("docker-compose.yml"))
+        ComposeContainer environment = new ComposeContainer(
+                new File("docker-compose.yml"), new File("docker-compose.test.yml"))
                 // Use the host's own `docker compose` CLI instead of Testcontainers' containerized
                 // compose runner - avoids Docker-outside-of-Docker entirely.
                 .withLocalCompose(true)
@@ -64,7 +65,10 @@ public final class CustomSut {
                 .withExposedService(ORDERS_SERVICE, REST_PORT,
                         // Generous: this is the service with a Dockerfile build behind it, and a cold
                         // Gradle dependency resolution inside that build can take several minutes.
-                        Wait.forHttp("/orders").forStatusCode(200).withStartupTimeout(Duration.ofMinutes(5)))
+                        // forPort is required: the service also exposes gRPC, and without it the probe may
+                        // pick that port and send HTTP/1.1 to it.
+                        Wait.forHttp("/orders").forPort(REST_PORT).forStatusCode(200)
+                                .withStartupTimeout(Duration.ofMinutes(5)))
                 .withExposedService(ORDERS_SERVICE, GRPC_PORT);
 
         try {
