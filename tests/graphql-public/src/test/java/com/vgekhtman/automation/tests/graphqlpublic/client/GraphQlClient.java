@@ -1,5 +1,6 @@
 package com.vgekhtman.automation.tests.graphqlpublic.client;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -14,6 +15,8 @@ public final class GraphQlClient {
 
     static {
         RestAssured.baseURI = env("GRAPHQL_PUBLIC_BASE_URL", "https://rickandmortyapi.com/graphql");
+        // Every request/response pair is attached to the Allure report.
+        RestAssured.filters(new AllureRestAssured());
     }
 
     private GraphQlClient() {
@@ -33,7 +36,16 @@ public final class GraphQlClient {
         body.put("query", query);
         body.put("variables", variables);
 
-        return given().contentType(JSON).body(body)
-                .when().post();
+        return given()
+                .log().method()
+                .log().uri()
+                .contentType(JSON)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .log().status()
+                .extract()
+                .response();
     }
 }

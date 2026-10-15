@@ -1,6 +1,11 @@
 package com.vgekhtman.automation.tests.graphqlpublic;
 
 import com.vgekhtman.automation.tests.graphqlpublic.client.GraphQlClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +22,14 @@ import static org.hamcrest.Matchers.not;
  * pagination envelope (info.count/info.pages), not just the results array. Counts aren't hardcoded since
  * the live dataset's totals could shift upstream; only their shape/positivity is asserted.
  */
+@Epic("API Protocols")
+@Feature("GraphQL")
+@Story("Variables, filtering and pagination")
 @Tag("public-api")
 class CharactersFilterPaginationTest {
 
+    @DisplayName("TC-GRAPHQL-003: variables drive pagination and filtering, including the info envelope")
+    @Description("Uses GraphQL variables for page and status and asserts on the pagination envelope as well as the results.")
     @Test
     void queryingWithVariablesAppliesPaginationAndFilter() {
         String query = "query($page: Int, $status: String) { "

@@ -15,6 +15,9 @@ dependencies {
     // Transport for InventoryClient's channel; consumers get it on their runtime classpath transitively.
     implementation("io.grpc:grpc-netty-shaded:1.83.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
+    // InventoryClient attaches each call to the Allure report.
+    implementation(platform("io.qameta.allure:allure-bom:${rootProject.extra["allureVersion"]}"))
+    implementation("io.qameta.allure:allure-java-commons")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitVersion")

@@ -6,8 +6,13 @@ import com.vgekhtman.automation.testutils.data.InventoryRequests;
 import com.vgekhtman.automation.testutils.grpc.InventoryClient;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +20,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
+@Epic("API Protocols")
+@Feature("gRPC")
+@Story("Stock reservation")
 @Tag("custom-sut")
 @ExtendWith(CustomSutExtension.class)
 class StockReservationTest {
@@ -37,6 +45,8 @@ class StockReservationTest {
      * Reserving 3 leaves 2, so a second reserve of 3 is insufficient. The reserve-then-exhaust sequence
      * lives in one test so it doesn't depend on test order.
      */
+    @DisplayName("TC-GRPC-003: ReserveStock decrements stock and refuses to go below zero")
+    @Description("Insufficient stock is a business outcome in the response, not a gRPC error, and stock never goes negative.")
     @Test
     void reservingStockDecrementsItAndRefusesToGoBelowZero() {
         ReserveStockResponse first = client.reserveStock(
@@ -58,6 +68,8 @@ class StockReservationTest {
         assertThat(stillAvailable).isEqualTo(2);
     }
 
+    @DisplayName("TC-GRPC-004: ReserveStock with zero quantity fails with INVALID_ARGUMENT")
+    @Description("Asserts the INVALID_ARGUMENT status code for a zero quantity.")
     @Test
     void zeroQuantityFailsWithInvalidArgument() {
         StatusRuntimeException error = catchThrowableOfType(StatusRuntimeException.class,
@@ -67,6 +79,8 @@ class StockReservationTest {
         assertThat(error.getStatus().getCode()).isEqualTo(Status.Code.INVALID_ARGUMENT);
     }
 
+    @DisplayName("TC-GRPC-005: ReserveStock with a negative quantity fails with INVALID_ARGUMENT")
+    @Description("Asserts the INVALID_ARGUMENT status code for a negative quantity.")
     @Test
     void negativeQuantityFailsWithInvalidArgument() {
         StatusRuntimeException error = catchThrowableOfType(StatusRuntimeException.class,

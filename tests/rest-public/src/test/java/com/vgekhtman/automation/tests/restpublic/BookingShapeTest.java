@@ -2,6 +2,11 @@ package com.vgekhtman.automation.tests.restpublic;
 
 import com.vgekhtman.automation.tests.restpublic.client.Booking;
 import com.vgekhtman.automation.tests.restpublic.client.BookingApi;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -26,9 +31,14 @@ import static org.hamcrest.Matchers.instanceOf;
  * {@code additionalneeds} is asserted as present because every fixture this module sends includes it -
  * the live API treats it as optional in general, which these assertions don't claim to prove either way.
  */
+@Epic("API Protocols")
+@Feature("REST")
+@Story("Response shape")
 @Tag("public-api")
 class BookingShapeTest {
 
+    @DisplayName("TC-RESTPUB-003: the create-booking response has the expected shape")
+    @Description("Field and type assertions on the create response envelope.")
     @Test
     void createBookingResponseHasExpectedShape() {
         BookingApi.createBookingResponse(Booking.aBooking()).then()
@@ -43,6 +53,8 @@ class BookingShapeTest {
                 .body("booking.bookingdates.checkout", instanceOf(String.class));
     }
 
+    @DisplayName("TC-RESTPUB-004: the get-booking response has the expected shape")
+    @Description("Field and type assertions on the plain booking response.")
     @Test
     void getBookingResponseHasExpectedShape() {
         int bookingId = BookingApi.createBooking(Booking.aBooking());

@@ -11,6 +11,11 @@ import au.com.dius.pact.core.model.annotations.PactDirectory;
 import com.vgekhtman.automation.tests.contract.PactFiles;
 import com.vgekhtman.automation.tests.contract.consumer.model.OrderRequest;
 import com.vgekhtman.automation.tests.contract.consumer.model.OrderResponse;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -31,6 +36,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>Every field declared in a pact response is asserted on after the client has parsed it, so a field the
  * client fails to map would fail here, and no field is declared that the client doesn't read.
  */
+@Epic("API Protocols")
+@Feature("Contract (Pact)")
+@Story("Consumer contract")
 @Tag("custom-sut")
 @Order(1)
 @PactDirectory(PactFiles.DIR)
@@ -115,6 +123,8 @@ class OrdersConsumerPactTest {
                 .toPact();
     }
 
+    @DisplayName("TC-PACT-001: consumer: creating an order matches the declared contract")
+    @Description("The consumer client sends the declared POST /orders request and parses every field of the declared response.")
     @Test
     @PactTestFor(pactMethod = "createOrder")
     void createsAnOrder(MockServer mockServer) {
@@ -129,6 +139,8 @@ class OrdersConsumerPactTest {
         assertThat(Instant.parse(order.createdAt())).isNotNull();
     }
 
+    @DisplayName("TC-PACT-002: consumer: reading an existing order matches the declared contract")
+    @Description("The consumer client sends the declared GET /orders/{id} request and parses the declared response exactly.")
     @Test
     @PactTestFor(pactMethod = "getExistingOrder")
     void readsAnExistingOrder(MockServer mockServer) {
@@ -136,6 +148,8 @@ class OrdersConsumerPactTest {
                 .contains(EXISTING_ORDER);
     }
 
+    @DisplayName("TC-PACT-003: consumer: a missing order is treated as absent")
+    @Description("The consumer client maps the declared 404 response to an empty result.")
     @Test
     @PactTestFor(pactMethod = "getMissingOrder")
     void treatsAMissingOrderAsAbsent(MockServer mockServer) {
