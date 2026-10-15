@@ -7,3 +7,6 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitVersion")
     testImplementation("org.assertj:assertj-core:3.27.7")
 }
+
+// Tests run against the custom SUT stack: declare what feeds it as test inputs.
+apply(from = rootProject.file("gradle/sut-backed.gradle.kts"))
