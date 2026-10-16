@@ -1,5 +1,6 @@
 # Three stages: the harness self-tests, then the demonstrated tests split by what they run against
-# (custom-sut: blocking; public-api: reported but never blocking), then one combined Allure report.
+# (custom-sut: blocking; public-api: reported but never blocking), then one combined Allure report, published to
+# GitHub Pages: main at the site root, develop under /develop/.
 # Nothing here needs a repository secret: the public APIs are unauthenticated and the custom SUT is self-contained.
 name: CI
 
@@ -135,36 +136,52 @@ jobs:
           path: allure-results
           merge-multiple: true
 
+      # Each report keeps its own trend history: main's at the site root, any other branch's in a subfolder
+      # (develop/), matching where publish-report puts it. A pull request continues its target branch's history.
       - name: Fetch previous report history (for trend graphs)
         run: |
+          target="${GITHUB_BASE_REF:-$GITHUB_REF_NAME}"
+          base="https://vgekhtman-portfolio.github.io/java-backend-testing"
+          if [ "$target" != "main" ]; then base="$base/develop"; fi
           mkdir -p allure-results/history
           for f in history.json history-trend.json categories-trend.json duration-trend.json retry-trend.json; do
-            curl -sf "https://vgekhtman-portfolio.github.io/java-backend-testing/history/$f" \
-              -o "allure-results/history/$f" || true
+            curl -sf "$base/history/$f" -o "allure-results/history/$f" || true
           done
 
       - name: Generate combined report
         run: npx --yes allure-commandline@2.34.1 generate allure-results --clean -o allure-report
 
-      - name: Upload report for Pages
-        uses: actions/upload-pages-artifact@v5
+      - name: Upload report
+        uses: actions/upload-artifact@v7
         with:
+          name: allure-report
           path: allure-report
 
-  deploy-pages:
-    name: Deploy Allure report to Pages
+  publish-report:
+    name: Publish report to Pages
     needs: allure-report
-    # A pull_request run builds from a synthetic merge commit, which the github-pages environment's branch
-    # protection rejects, so only deploy on pushes to the default branch.
-    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+    # Pull requests keep the report as the artifact above; pushes to main and develop publish it.
+    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'develop')
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      contents: write
+    # Publishing rewrites the shared gh-pages branch, so runs must not overlap.
+    concurrency:
+      group: publish-report
+      cancel-in-progress: false
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: allure-report
+          path: allure-report
+
+      # main's report is the site root; develop's lives under /develop/.
+      - name: Publish to the gh-pages branch
+        run: |
+          subfolder=""
+          if [ "$GITHUB_REF_NAME" != "main" ]; then subfolder="$GITHUB_REF_NAME"; fi
+          .github/scripts/publish-report.sh \
+            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            allure-report "$subfolder"

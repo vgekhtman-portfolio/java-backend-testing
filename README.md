@@ -63,9 +63,10 @@ The [workflow](.github/workflows/ci.yml) runs on pushes and pull requests to `ma
 
 1. **Framework tests** (blocking) run first; every other job waits for them.
 2. **Custom-SUT tests** (blocking) and **public-API tests** (visible when failing, never blocking) run next.
-3. A single **Allure report** of the demonstrated tests is generated from both and deployed to
-   [GitHub Pages](https://vgekhtman-portfolio.github.io/java-backend-testing/) from the default branch, with
-   history trends carried across runs.
+3. A single **Allure report** of the demonstrated tests is generated from both. Pushes publish it to GitHub Pages:
+   `main` at [the site root](https://vgekhtman-portfolio.github.io/java-backend-testing/), `develop` under
+   [`/develop/`](https://vgekhtman-portfolio.github.io/java-backend-testing/develop/), each with its own history
+   trends. Pull requests keep the report as a downloadable `allure-report` artifact.
 
 Locally, `./gradlew allureServe` opens the same combined report; `./gradlew allureReport` writes it to
 `build/reports/allure-report`. Tests are grouped by Epic/Feature/Story. Every REST, GraphQL, gRPC and SQL call is a
