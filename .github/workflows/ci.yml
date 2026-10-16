@@ -24,6 +24,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # Where this branch's report is published: main at the site root, develop under /develop/.
+  REPORT_URL: ${{ github.ref_name == 'main' && 'https://vgekhtman-portfolio.github.io/java-backend-testing/' || 'https://vgekhtman-portfolio.github.io/java-backend-testing/develop/' }}
+
 permissions:
   contents: read
 
@@ -173,10 +177,25 @@ jobs:
         run: npx --yes allure-commandline@2.34.1 generate allure-results --clean -o allure-report
 
       - name: Upload report
+        id: report
         uses: actions/upload-artifact@v7
         with:
           name: allure-report
           path: allure-report
+
+      - name: Link the report
+        env:
+          ARTIFACT_URL: ${{ steps.report.outputs.artifact-url }}
+          PUBLISHED: ${{ (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'all')) && (github.ref_name == 'main' || github.ref_name == 'develop') }}
+        run: |
+          {
+            echo "### Allure report"
+            echo
+            if [ "$PUBLISHED" = "true" ]; then
+              echo "- [Published report]($REPORT_URL) (live once the publish job below finishes)"
+            fi
+            echo "- [Report artifact (download)]($ARTIFACT_URL)"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   publish-report:
     name: Publish report to Pages
@@ -189,6 +208,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    # Shows a link to the published report on the run and in the repository's deployments.
+    environment:
+      name: ${{ github.ref_name == 'main' && 'allure-report' || 'allure-report-develop' }}
+      url: ${{ env.REPORT_URL }}
     # Publishing rewrites the shared gh-pages branch, so runs must not overlap.
     concurrency:
       group: publish-report
@@ -209,3 +232,8 @@ jobs:
           .github/scripts/publish-report.sh \
             "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
             allure-report "$subfolder"
+
+      - name: Link the report
+        run: |
+          echo "### Published report" >> "$GITHUB_STEP_SUMMARY"
+          echo "[$REPORT_URL]($REPORT_URL)" >> "$GITHUB_STEP_SUMMARY"

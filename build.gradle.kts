@@ -94,7 +94,7 @@ configure(testModules) {
 }
 
 // The single directory holding every demonstrated module's results (what CI uploads and `allure serve` can open).
-// Modules still write to their own build/allure-results so Gradle sees non-overlapping, cacheable outputs.
+// Modules still write to their own build/allure-results so Gradle sees non-overlapping outputs.
 tasks.register<Sync>("allureResults") {
     group = "reporting"
     description = "Merges the demonstrated test modules' Allure raw results into build/allure-results."
@@ -114,7 +114,8 @@ demoModules.forEach { module ->
 }
 
 // The root `test` lifecycle (what `./gradlew test` selects alongside every module's `test`) waits for all test modules,
-// then the merge runs once, after the last of them, whether or not tests failed.
+// then the merge runs once, after the last of them. If a module's tests fail Gradle never starts this task, so CI runs
+// `./gradlew allureResults` explicitly after the test step.
 tasks.named("test") {
     testModules.forEach { module -> dependsOn(module.tasks.withType<Test>()) }
     finalizedBy("allureResults")

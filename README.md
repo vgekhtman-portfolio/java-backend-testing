@@ -66,7 +66,8 @@ The [workflow](.github/workflows/ci.yml) runs on pushes and pull requests to `ma
 3. A single **Allure report** of the demonstrated tests is generated from both. Pushes publish it to GitHub Pages:
    `main` at [the site root](https://vgekhtman-portfolio.github.io/java-backend-testing/), `develop` under
    [`/develop/`](https://vgekhtman-portfolio.github.io/java-backend-testing/develop/), each with its own history
-   trends. Pull requests keep the report as a downloadable `allure-report` artifact.
+   trends. Pull requests keep the report as a downloadable `allure-report` artifact. Each run's summary page links to its
+   report, and the publish job shows a link to the published one.
 
 A manual run (Actions -> CI -> Run workflow) takes a `scope`: `all` (default), `custom-sut` or `public-api`; the
 framework tests always run first. Only a full manual run on `main` or `develop` publishes the report.
