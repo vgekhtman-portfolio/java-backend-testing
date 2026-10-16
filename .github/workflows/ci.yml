@@ -77,7 +77,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
 
       - name: Run custom-SUT tests
-        run: ./gradlew test -PincludeTags=custom-sut -x :shared-test-utils:test
+        run: ./gradlew test -PincludeTags=custom-sut -x :shared-test-utils:test --continue
+
+      # Gradle skips the root merge when a module fails, so merge explicitly: the failing run is the one whose
+      # results matter most.
+      - name: Merge Allure results
+        if: always()
+        run: ./gradlew allureResults
 
       - name: Upload Allure results
         if: always()
@@ -106,7 +112,11 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
 
       - name: Run public-API tests
-        run: ./gradlew test -PincludeTags=public-api -x :shared-test-utils:test
+        run: ./gradlew test -PincludeTags=public-api -x :shared-test-utils:test --continue
+
+      - name: Merge Allure results
+        if: always()
+        run: ./gradlew allureResults
 
       - name: Upload Allure results
         if: always()
