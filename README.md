@@ -78,6 +78,7 @@ proto/               inventory.proto and the generated gRPC stubs
 sut/                 the custom service (orders REST API, inventory gRPC service, Flyway migrations, Dockerfile)
 docker-compose.yml   service + Postgres + WireMock (default payment stub in sut/wiremock/mappings)
 shared-test-utils/   test harness and its self-tests
+test-logging/        routes Rest-Assured's request/response logging through Logback
 tests/               one module per protocol or technique (table above)
 ```
 

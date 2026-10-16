@@ -1,8 +1,10 @@
 package com.vgekhtman.automation.tests.restcustom.client;
 
+import com.vgekhtman.automation.testlogging.RestAssuredLogging;
 import com.vgekhtman.automation.testutils.CustomSut;
 import com.vgekhtman.automation.testutils.data.OrderRequest;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -13,6 +15,11 @@ import static io.restassured.http.ContentType.JSON;
  * Every call logs its method, URI and response status, and attaches the request/response pair to the Allure report.
  */
 public final class OrdersApi {
+
+    static {
+        // .log() output goes through Logback instead of stdout.
+        RestAssured.config = RestAssuredLogging.config();
+    }
 
     private OrdersApi() {
     }
