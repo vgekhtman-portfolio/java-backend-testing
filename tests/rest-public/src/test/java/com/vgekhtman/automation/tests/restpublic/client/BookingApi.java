@@ -1,5 +1,6 @@
 package com.vgekhtman.automation.tests.restpublic.client;
 
+import com.vgekhtman.automation.testlogging.RestAssuredLogging;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -16,6 +17,8 @@ public final class BookingApi {
         RestAssured.baseURI = env("REST_PUBLIC_BASE_URL", "https://restful-booker.herokuapp.com");
         // Every request/response pair is attached to the Allure report.
         RestAssured.filters(new AllureRestAssured());
+        // .log() output goes through Logback instead of stdout.
+        RestAssured.config = RestAssuredLogging.config();
     }
 
     private BookingApi() {

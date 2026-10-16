@@ -20,8 +20,7 @@ dependencies {
 
 tasks.test {
     // The consumer tests write the pact file here and the provider verification reads it back, so it is a
-    // declared output (restored from the build cache with the test results) and cleared before each run
-    // so a stale pact from an earlier run can never be verified.
+    // declared output and cleared before each run so a stale pact from an earlier run can never be verified.
     val pactDir = layout.buildDirectory.dir("pacts")
     outputs.dir(pactDir)
     doFirst { delete(pactDir) }

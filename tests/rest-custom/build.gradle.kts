@@ -5,6 +5,7 @@ dependencies {
     testImplementation(project(":shared-test-utils"))
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.qameta.allure:allure-rest-assured")
+    testImplementation(project(":test-logging"))
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitVersion")

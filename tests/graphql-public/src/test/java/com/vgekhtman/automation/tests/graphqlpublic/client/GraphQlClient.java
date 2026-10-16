@@ -1,5 +1,6 @@
 package com.vgekhtman.automation.tests.graphqlpublic.client;
 
+import com.vgekhtman.automation.testlogging.RestAssuredLogging;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -17,6 +18,8 @@ public final class GraphQlClient {
         RestAssured.baseURI = env("GRAPHQL_PUBLIC_BASE_URL", "https://rickandmortyapi.com/graphql");
         // Every request/response pair is attached to the Allure report.
         RestAssured.filters(new AllureRestAssured());
+        // .log() output goes through Logback instead of stdout.
+        RestAssured.config = RestAssuredLogging.config();
     }
 
     private GraphQlClient() {

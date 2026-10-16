@@ -7,6 +7,7 @@ dependencies {
     // The state-changing calls under verification are made over REST and gRPC...
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.qameta.allure:allure-rest-assured")
+    testImplementation(project(":test-logging"))
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
     // ...and checked with plain JDBC - no ORM, which would work against querying the database directly.
     testRuntimeOnly("org.postgresql:postgresql:42.7.13")
