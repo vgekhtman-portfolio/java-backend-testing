@@ -30,8 +30,18 @@ subprojects {
         options.encoding = "UTF-8"
     }
 
+    // `-PincludeTags=custom-sut` (or `public-api`, comma-separated for several) runs only tests carrying those
+    // JUnit tags across every module; modules without any matching test are then not an error.
+    val includedTags = providers.gradleProperty("includeTags").map { it.split(",") }
+
     tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+        useJUnitPlatform {
+            if (includedTags.isPresent) includeTags(*includedTags.get().toTypedArray())
+        }
+        if (includedTags.isPresent) failOnNoDiscoveredTests = false
+        // Tests exercise live services (the public APIs, the Docker stack); a result restored from the build
+        // cache would report a run that never happened.
+        outputs.cacheIf { false }
         // So every module's tests resolve "docker-compose.yml" the same way, regardless of module depth.
         workingDir = rootProject.projectDir
         testLogging {
@@ -70,6 +80,11 @@ configure(testModules) {
         add("testImplementation", platform("io.qameta.allure:allure-bom:$allureLibraryVersion"))
         add("testImplementation", "org.slf4j:slf4j-api:2.0.17")
         add("testRuntimeOnly", "ch.qos.logback:logback-classic:1.5.18")
+    }
+
+    // Results from an earlier run would otherwise pile up in the directory and end up in the report.
+    tasks.withType<Test>().configureEach {
+        doFirst { delete(layout.buildDirectory.dir("allure-results")) }
     }
 
     // One logback-test.xml for every module, so levels and format are the same everywhere.

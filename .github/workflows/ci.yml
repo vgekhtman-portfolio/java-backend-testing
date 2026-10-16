@@ -1,0 +1,170 @@
+# Three stages: the harness self-tests, then the demonstrated tests split by what they run against
+# (custom-sut: blocking; public-api: reported but never blocking), then one combined Allure report.
+# Nothing here needs a repository secret: the public APIs are unauthenticated and the custom SUT is self-contained.
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  framework:
+    name: Framework tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Show Docker Compose version
+        run: docker compose version
+
+      - name: Run framework tests
+        run: ./gradlew :shared-test-utils:test
+
+      - name: Summarize results
+        if: always()
+        run: |
+          {
+            echo "### Framework tests"
+            echo
+            echo "| Class | Tests | Failures | Errors | Skipped |"
+            echo "|---|---|---|---|---|"
+            for f in shared-test-utils/build/test-results/test/TEST-*.xml; do
+              [ -e "$f" ] || continue
+              grep -m1 -o '<testsuite [^>]*>' "$f" |
+                sed -E 's/.*name="([^"]*)" tests="([0-9]+)" skipped="([0-9]+)" failures="([0-9]+)" errors="([0-9]+)".*/| \1 | \2 | \4 | \5 | \3 |/'
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: framework-test-report
+          path: shared-test-utils/build/reports/tests/test
+          if-no-files-found: warn
+
+  custom-sut:
+    name: Demonstrated tests (custom SUT)
+    needs: framework
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Run custom-SUT tests
+        run: ./gradlew test -PincludeTags=custom-sut -x :shared-test-utils:test
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: allure-results-custom-sut
+          path: build/allure-results
+          if-no-files-found: warn
+
+  public-api:
+    name: Demonstrated tests (public APIs)
+    needs: framework
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # The targets are third-party services outside this repository's control: a failure shows on this job
+    # but does not fail the workflow.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Run public-API tests
+        run: ./gradlew test -PincludeTags=public-api -x :shared-test-utils:test
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: allure-results-public-api
+          path: build/allure-results
+          if-no-files-found: warn
+
+  allure-report:
+    name: Combined Allure report
+    needs: [framework, custom-sut, public-api]
+    # Skipped when the framework stage failed: nothing downstream ran.
+    if: ${{ !cancelled() && needs.framework.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Download all Allure results
+        uses: actions/download-artifact@v8
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
+
+      - name: Fetch previous report history (for trend graphs)
+        run: |
+          mkdir -p allure-results/history
+          for f in history.json history-trend.json categories-trend.json duration-trend.json retry-trend.json; do
+            curl -sf "https://vgekhtman-portfolio.github.io/java-backend-testing/history/$f" \
+              -o "allure-results/history/$f" || true
+          done
+
+      - name: Generate combined report
+        run: npx --yes allure-commandline@2.34.1 generate allure-results --clean -o allure-report
+
+      - name: Upload report for Pages
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: allure-report
+
+  deploy-pages:
+    name: Deploy Allure report to Pages
+    needs: allure-report
+    # A pull_request run builds from a synthetic merge commit, which the github-pages environment's branch
+    # protection rejects, so only deploy on pushes to the default branch.
+    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
