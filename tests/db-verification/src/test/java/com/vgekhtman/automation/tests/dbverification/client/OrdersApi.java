@@ -1,9 +1,9 @@
 package com.vgekhtman.automation.tests.dbverification.client;
 
-import com.vgekhtman.automation.testlogging.RestAssuredLogging;
+import com.vgekhtman.automation.testsupport.AllureHttpFilter;
+import com.vgekhtman.automation.testsupport.RestAssuredLogging;
 import com.vgekhtman.automation.testutils.CustomSut;
 import com.vgekhtman.automation.testutils.data.OrderRequest;
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -23,7 +23,7 @@ public final class OrdersApi {
 
     public static Response createOrder(OrderRequest request) {
         return given()
-                .filter(new AllureRestAssured())
+                .filter(new AllureHttpFilter())
                 .log().method()
                 .log().uri()
                 .baseUri(CustomSut.restBaseUrl())

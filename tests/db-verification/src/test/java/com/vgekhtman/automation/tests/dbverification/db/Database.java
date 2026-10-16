@@ -1,5 +1,6 @@
 package com.vgekhtman.automation.tests.dbverification.db;
 
+import com.vgekhtman.automation.testsupport.AllureEvidence;
 import com.vgekhtman.automation.testutils.CustomSut;
 import io.qameta.allure.Allure;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public final class Database {
             statement.setObject(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 if (!rs.next()) {
-                    logQuery(ORDER_BY_ID, id, "no rows");
+                    logQuery("Find order by id", ORDER_BY_ID, id, "no rows");
                     return Optional.empty();
                 }
                 OrderRow row = new OrderRow(
@@ -48,7 +49,7 @@ public final class Database {
                         rs.getInt("quantity"),
                         rs.getString("status"),
                         rs.getObject("created_at", OffsetDateTime.class));
-                logQuery(ORDER_BY_ID, id, row.toString());
+                logQuery("Find order by id", ORDER_BY_ID, id, row.toString());
                 return Optional.of(row);
             }
         } catch (SQLException e) {
@@ -63,7 +64,7 @@ public final class Database {
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
                 long count = rs.getLong(1);
-                logQuery(COUNT_ORDERS_BY_PRODUCT, productId, "count = " + count);
+                logQuery("Count orders for product", COUNT_ORDERS_BY_PRODUCT, productId, "count = " + count);
                 return count;
             }
         } catch (SQLException e) {
@@ -80,7 +81,7 @@ public final class Database {
                     throw new IllegalStateException("no inventory row for " + productId);
                 }
                 int quantity = rs.getInt(1);
-                logQuery(INVENTORY_QUANTITY, productId, "quantity = " + quantity);
+                logQuery("Read inventory quantity", INVENTORY_QUANTITY, productId, "quantity = " + quantity);
                 return quantity;
             }
         } catch (SQLException e) {
@@ -88,11 +89,12 @@ public final class Database {
         }
     }
 
-    /** Logs the query and attaches its SQL, parameter and result to the Allure report. */
-    private static void logQuery(String sql, Object parameter, String result) {
-        log.info("SQL query with [{}] -> {}", parameter, result);
+    /** Logs the query and records it in the Allure report as a step with the SQL, parameter and result. */
+    private static void logQuery(String label, String sql, Object parameter, String result) {
+        log.info("SQL {} [{}] -> {}", label, parameter, result);
         log.debug("SQL: {}", sql);
-        Allure.attachment("SQL query", "%s%nparameter: %s%nresult: %s".formatted(sql, parameter, result));
+        Allure.step("SQL: " + label, () ->
+                AllureEvidence.text("Query", "%s%nparameter: %s%nresult: %s".formatted(sql, parameter, result)));
     }
 
     private static Connection connect() throws SQLException {
