@@ -10,6 +10,15 @@ on:
   pull_request:
     branches: [main, develop]
   workflow_dispatch:
+    inputs:
+      scope:
+        description: Which demonstrated tests to run (the framework tests always run first)
+        type: choice
+        options:
+          - all
+          - custom-sut
+          - public-api
+        default: all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -65,6 +74,7 @@ jobs:
   custom-sut:
     name: Demonstrated tests (custom SUT)
     needs: framework
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.scope == 'all' || inputs.scope == 'custom-sut' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -97,6 +107,7 @@ jobs:
   public-api:
     name: Demonstrated tests (public APIs)
     needs: framework
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.scope == 'all' || inputs.scope == 'public-api' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     # The targets are third-party services outside this repository's control: a failure shows on this job
@@ -170,8 +181,11 @@ jobs:
   publish-report:
     name: Publish report to Pages
     needs: allure-report
-    # Pull requests keep the report as the artifact above; pushes to main and develop publish it.
-    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'develop')
+    # Pull requests keep the report as the artifact above. Pushes to main and develop publish it, and so does a
+    # manual run of everything on those branches; a partial manual run never does, so it can't replace a full report.
+    if: >-
+      (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'all'))
+      && (github.ref_name == 'main' || github.ref_name == 'develop')
     runs-on: ubuntu-latest
     permissions:
       contents: write
