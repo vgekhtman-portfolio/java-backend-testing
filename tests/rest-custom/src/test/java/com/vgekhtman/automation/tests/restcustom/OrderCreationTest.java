@@ -30,7 +30,7 @@ class OrderCreationTest {
         OrderRequest request = OrderRequests.anOrder().build();
 
         OrdersApi.createOrder(request).then()
-                .statusCode(201)
+                .statusCode(202)
                 .body("id", notNullValue())
                 .body("customerId", equalTo(request.customerId()))
                 .body("productId", equalTo(request.productId()))
