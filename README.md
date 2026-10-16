@@ -57,6 +57,8 @@ The tags follow that split. `custom-sut` tests are fully under the project's con
 | [`tests/contract`](tests/contract) | orders-service | Pact consumer test generating a pact, then verification against the running service with database-backed provider states |
 | [`shared-test-utils`](shared-test-utils) | — | Test harness: Testcontainers Compose stack shared per module, WireMock control, request builders. Has its own self-tests (tag `framework`), run first and reported apart from the demonstrated tests |
 
+Every scenario, with its test ID, is listed in [`docs/SCENARIOS.md`](docs/SCENARIOS.md).
+
 ## CI and reports
 
 The [workflow](.github/workflows/ci.yml) runs on pushes and pull requests to `main`/`develop` in stages:
@@ -86,6 +88,7 @@ docker-compose.yml   service + Postgres + WireMock (default payment stub in sut/
 shared-test-utils/   test harness and its self-tests
 test-support/        Rest-Assured logging via Logback and inline Allure evidence (requests, responses)
 tests/               one module per protocol or technique (table above)
+docs/                the scenario list
 ```
 
 ## Notes and limitations
