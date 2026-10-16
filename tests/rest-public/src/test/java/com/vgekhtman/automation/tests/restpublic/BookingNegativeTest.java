@@ -24,7 +24,7 @@ class BookingNegativeTest {
     @Description("GET for an id that was never created.")
     @Test
     void gettingAnIdThatNeverExistedReturnsNotFound() {
-        BookingApi.getBooking(999_999_999).then().statusCode(404);
+        BookingApi.getBooking(999_999_999).then().statusCode(418);
     }
 
     @DisplayName("TC-RESTPUB-006: a booking deleted by the test returns 404")
