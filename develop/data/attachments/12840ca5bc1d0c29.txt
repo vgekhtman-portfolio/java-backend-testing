@@ -1,0 +1,44 @@
+HTTP/1.1 200 OK
+Date: Fri, 16 Oct 2026 18:05:47 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: cloudflare
+expect-ct: max-age=86400, enforce
+etag: W/"7f-sz0YAGB8D0Nop3sCu++ff7h81VI"
+access-control-allow-origin: *
+vary: accept-encoding
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tsEFLF0gMX3tDZ%2BoV8Vtrqv57As6orhhiKXPsBzvMupjMl8ZaUCcvTmYnaoS6ruUoCQUiPTz1n8%2Bm54kAiONce%2FsrhqEZTIarbWQEPYFy4bJ10c6AYOyVQa84eZFKO%2BXkF76Btt1"}]}
+access-control-max-age: 600
+access-control-allow-credentials: true
+access-control-allow-methods: POST, GET, HEAD, OPTIONS
+access-control-allow-headers: *
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cache-control: public, s-maxage=7776000, stale-while-revalidate=7776000
+alt-svc: h3=":443"; ma=86400
+age: 137228
+access-control-expose-headers: *
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-frame-options: SAMEORIGIN
+x-cache: HIT
+referrer-policy: same-origin
+gcdn-cache: HIT
+stellate-rate-limit-budget-remaining: 29
+stellate-rate-limit-rules: "IP limit";type="RequestCount";budget=30;limited=?0;remaining=29;refill=10
+stellate-rate-limit-decision: pass
+stellate-rate-limit-budget-required: 7
+x-served-by: cache-bru1480043-BRU
+cf-cache-status: DYNAMIC
+content-encoding: gzip
+CF-RAY: a4b8fe627e9da0a7-EWR
+
+{
+  "data" : {
+    "character" : {
+      "name" : "Rick Sanchez",
+      "status" : "Alive",
+      "species" : "Human"
+    }
+  }
+}

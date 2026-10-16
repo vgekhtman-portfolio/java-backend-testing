@@ -1,0 +1,9 @@
+POST http://localhost:34377/orders
+Accept: */*
+Content-Type: application/json
+
+{
+  "customerId" : "cust-1",
+  "productId" : "prod-abc",
+  "quantity" : 2
+}

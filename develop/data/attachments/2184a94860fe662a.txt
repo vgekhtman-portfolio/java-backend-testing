@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 169
+Date: Fri, 16 Oct 2026 18:07:40 GMT
+
+{
+  "id" : "8327c7d5-1f70-434f-9967-42db66a4910e",
+  "customerId" : "cust-test",
+  "productId" : "prod-abc",
+  "quantity" : 1,
+  "status" : "CONFIRMED",
+  "createdAt" : "2026-10-16T18:07:39.941347Z"
+}

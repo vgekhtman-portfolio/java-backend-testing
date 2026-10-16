@@ -1,0 +1,2 @@
+GET http://localhost:32774/orders/8487627b-3fea-4ff8-9ccd-c15c0b7bed4c
+Accept: */*

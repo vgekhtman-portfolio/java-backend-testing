@@ -1,0 +1,2 @@
+GET https://restful-booker.herokuapp.com/booking/1337
+Accept: */*

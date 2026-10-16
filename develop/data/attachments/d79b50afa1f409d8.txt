@@ -1,0 +1,106 @@
+HTTP/1.1 200 OK
+Date: Fri, 16 Oct 2026 18:05:50 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: cloudflare
+expect-ct: max-age=86400, enforce
+vary: accept-encoding
+etag: W/"72c-isy/8nGUxP3+t5mOFBptCoz7JQM"
+access-control-expose-headers: *
+access-control-max-age: 600
+x-content-type-options: nosniff
+access-control-allow-credentials: true
+x-frame-options: SAMEORIGIN
+access-control-allow-methods: POST, GET, HEAD, OPTIONS
+access-control-allow-headers: *
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9JsAr4aeSR0EhKM7su7YgMW20SXxTpuIcpv90%2BaQ0VCbLsnXZSWCfid8kpf3w9JrkJwvQpfybvAX4zWdkkTqjnRbzT3Ai1XvTvpdA%2Ff2gMJWkA0dHIAMaK1B3%2FUBpPyquQgLZaMv"}]}
+access-control-allow-origin: *
+x-xss-protection: 1; mode=block
+age: 118703
+x-cache: HIT
+cache-control: public, s-maxage=7776000, stale-while-revalidate=7776000
+referrer-policy: same-origin
+alt-svc: h3=":443"; ma=86400
+gcdn-cache: HIT
+stellate-rate-limit-budget-remaining: 27
+stellate-rate-limit-rules: "IP limit";type="RequestCount";budget=30;limited=?0;remaining=27;refill=8
+stellate-rate-limit-decision: pass
+stellate-rate-limit-budget-required: 12
+x-served-by: cache-bru1480053-BRU
+cf-cache-status: DYNAMIC
+content-encoding: gzip
+CF-RAY: a4b8fe726a2f8c60-EWR
+
+{
+  "data" : {
+    "characters" : {
+      "info" : {
+        "count" : 439,
+        "pages" : 22
+      },
+      "results" : [ {
+        "name" : "Big Boobed Waitress",
+        "status" : "Alive"
+      }, {
+        "name" : "Bill",
+        "status" : "Alive"
+      }, {
+        "name" : "Birdperson",
+        "status" : "Alive"
+      }, {
+        "name" : "Black Rick",
+        "status" : "Alive"
+      }, {
+        "name" : "Blamph",
+        "status" : "Alive"
+      }, {
+        "name" : "Blim Blam",
+        "status" : "Alive"
+      }, {
+        "name" : "Blue Diplomat",
+        "status" : "Alive"
+      }, {
+        "name" : "Bobby Moynihan",
+        "status" : "Alive"
+      }, {
+        "name" : "Borpocian",
+        "status" : "Alive"
+      }, {
+        "name" : "Brad",
+        "status" : "Alive"
+      }, {
+        "name" : "Centaur",
+        "status" : "Alive"
+      }, {
+        "name" : "Chris",
+        "status" : "Alive"
+      }, {
+        "name" : "Collector",
+        "status" : "Alive"
+      }, {
+        "name" : "Cool Rick",
+        "status" : "Alive"
+      }, {
+        "name" : "Cop Rick",
+        "status" : "Alive"
+      }, {
+        "name" : "Courier Flap",
+        "status" : "Alive"
+      }, {
+        "name" : "Cowboy Morty",
+        "status" : "Alive"
+      }, {
+        "name" : "Cowboy Rick",
+        "status" : "Alive"
+      }, {
+        "name" : "Crab Spider",
+        "status" : "Alive"
+      }, {
+        "name" : "Creepy Little Girl",
+        "status" : "Alive"
+      } ]
+    }
+  }
+}

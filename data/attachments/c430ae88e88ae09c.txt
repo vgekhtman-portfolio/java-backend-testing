@@ -1,0 +1,2 @@
+product_id: "prod-abc"
+quantity: 2

@@ -1,0 +1,145 @@
+HTTP/1.1 200 OK
+Date: Fri, 16 Oct 2026 18:23:34 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: cloudflare
+expect-ct: max-age=86400, enforce
+etag: W/"fda-uz39103tRerVUIlMDHvrfTXG/rs"
+vary: accept-encoding
+access-control-max-age: 600
+access-control-allow-credentials: true
+access-control-allow-methods: POST, GET, HEAD, OPTIONS
+access-control-allow-headers: *
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+x-content-type-options: nosniff
+cache-control: public, s-maxage=7776000, stale-while-revalidate=7776000
+referrer-policy: same-origin
+access-control-allow-origin: *
+access-control-expose-headers: *
+x-cache: HIT
+x-xss-protection: 1; mode=block
+x-frame-options: SAMEORIGIN
+age: 119768
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=MedqU9uUYAFSODX9%2FsIA3ft31iQNJjY9KTmcTepmudzOn17aKZBh%2B0R7SJHB1xyNrTrfOfYAtmZLVcIcRUV0QveV0WnkIHvqK7engXudNw4frSGtybO3aTR40AujwVPTN405V4nE"}]}
+alt-svc: h3=":443"; ma=86400
+gcdn-cache: HIT
+stellate-rate-limit-budget-remaining: 28
+stellate-rate-limit-rules: "IP limit";type="RequestCount";budget=30;limited=?0;remaining=28;refill=9
+stellate-rate-limit-decision: pass
+stellate-rate-limit-budget-required: 8
+x-served-by: cache-bru1480034-BRU
+cf-cache-status: DYNAMIC
+content-encoding: gzip
+CF-RAY: a4b91871e889515a-LAX
+
+{
+  "data" : {
+    "character" : {
+      "name" : "Rick Sanchez",
+      "episode" : [ {
+        "name" : "Pilot"
+      }, {
+        "name" : "Lawnmower Dog"
+      }, {
+        "name" : "Anatomy Park"
+      }, {
+        "name" : "M. Night Shaym-Aliens!"
+      }, {
+        "name" : "Meeseeks and Destroy"
+      }, {
+        "name" : "Rick Potion #9"
+      }, {
+        "name" : "Raising Gazorpazorp"
+      }, {
+        "name" : "Rixty Minutes"
+      }, {
+        "name" : "Something Ricked This Way Comes"
+      }, {
+        "name" : "Close Rick-counters of the Rick Kind"
+      }, {
+        "name" : "Ricksy Business"
+      }, {
+        "name" : "A Rickle in Time"
+      }, {
+        "name" : "Mortynight Run"
+      }, {
+        "name" : "Auto Erotic Assimilation"
+      }, {
+        "name" : "Total Rickall"
+      }, {
+        "name" : "Get Schwifty"
+      }, {
+        "name" : "The Ricks Must Be Crazy"
+      }, {
+        "name" : "Big Trouble in Little Sanchez"
+      }, {
+        "name" : "Interdimensional Cable 2: Tempting Fate"
+      }, {
+        "name" : "Look Who's Purging Now"
+      }, {
+        "name" : "The Wedding Squanchers"
+      }, {
+        "name" : "The Rickshank Rickdemption"
+      }, {
+        "name" : "Rickmancing the Stone"
+      }, {
+        "name" : "Pickle Rick"
+      }, {
+        "name" : "Vindicators 3: The Return of Worldender"
+      }, {
+        "name" : "The Whirly Dirly Conspiracy"
+      }, {
+        "name" : "Rest and Ricklaxation"
+      }, {
+        "name" : "The Ricklantis Mixup"
+      }, {
+        "name" : "Morty's Mind Blowers"
+      }, {
+        "name" : "The ABC's of Beth"
+      }, {
+        "name" : "The Rickchurian Mortydate"
+      }, {
+        "name" : "Edge of Tomorty: Rick, Die, Rickpeat"
+      }, {
+        "name" : "The Old Man and the Seat"
+      }, {
+        "name" : "One Crew Over the Crewcoo's Morty"
+      }, {
+        "name" : "Claw and Hoarder: Special Ricktim's Morty"
+      }, {
+        "name" : "Rattlestar Ricklactica"
+      }, {
+        "name" : "Never Ricking Morty"
+      }, {
+        "name" : "Promortyus"
+      }, {
+        "name" : "The Vat of Acid Episode"
+      }, {
+        "name" : "Childrick of Mort"
+      }, {
+        "name" : "Star Mort: Rickturn of the Jerri"
+      }, {
+        "name" : "Mort Dinner Rick Andre"
+      }, {
+        "name" : "Mortyplicity"
+      }, {
+        "name" : "A Rickconvenient Mort"
+      }, {
+        "name" : "Rickdependence Spray"
+      }, {
+        "name" : "Amortycan Grickfitti"
+      }, {
+        "name" : "Rick & Morty's Thanksploitation Spectacular"
+      }, {
+        "name" : "Gotron Jerrysis Rickvangelion"
+      }, {
+        "name" : "Rickternal Friendshine of the Spotless Mort"
+      }, {
+        "name" : "Forgetting Sarick Mortshall"
+      }, {
+        "name" : "Rickmurai Jack"
+      } ]
+    }
+  }
+}

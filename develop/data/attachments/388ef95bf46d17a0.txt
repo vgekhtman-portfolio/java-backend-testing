@@ -1,0 +1,1 @@
+query { character(id: 1) { thisFieldDoesNotExist } }

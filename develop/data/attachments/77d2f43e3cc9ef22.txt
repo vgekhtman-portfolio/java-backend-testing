@@ -1,0 +1,3 @@
+success: true
+remaining_quantity: 2
+message: "reserved"

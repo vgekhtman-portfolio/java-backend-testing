@@ -1,0 +1,4 @@
+18:23:31.714531597 connected to wss://echo.websocket.org/
+18:23:31.716144522 received: Request served by 4d896d95b55478
+18:23:31.851809015 closing: code 1000, reason "test done"
+18:23:32.008575058 closed by server: code 1000, reason ""

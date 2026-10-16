@@ -1,0 +1,11 @@
+18:05:44.698643007 received: Request served by 4d896d95b55478
+18:05:44.698961978 connected to wss://echo.websocket.org/
+18:05:44.699660250 sent: one
+18:05:44.700497422 sent: two
+18:05:44.700960827 sent: three
+18:05:44.701347118 sent: four
+18:05:44.790454837 received: one
+18:05:44.790774994 received: two
+18:05:44.791026724 received: three
+18:05:44.791330481 received: four
+18:05:44.818602826 closing: test cleanup

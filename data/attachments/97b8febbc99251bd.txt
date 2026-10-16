@@ -1,0 +1,59 @@
+HTTP/1.1 200 OK
+Date: Fri, 16 Oct 2026 18:23:36 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: cloudflare
+expect-ct: max-age=86400, enforce
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=EdG3iNmrDu81CHykXqu%2FFBZuFFCqqVopAjqCtSsqz%2FforB5C%2Fu5dkJEPy9wKOVaOhMZUph4SQgwtdDb2Rf3ac6xKpntoPVh%2FgVCNtHjioAUjkpRajOo9fcFWZ0AzEvKzpMXbhv0i"}]}
+vary: accept-encoding
+x-xss-protection: 1; mode=block
+etag: W/"15e-CgJf0oJJ7SDPkw0OT/IlD2LNQu4"
+access-control-allow-origin: *
+access-control-max-age: 600
+access-control-expose-headers: *
+access-control-allow-credentials: true
+access-control-allow-methods: POST, GET, HEAD, OPTIONS
+referrer-policy: same-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+access-control-allow-headers: *
+gcdn-passed-through-response: has-errors
+alt-svc: h3=":443"; ma=86400
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+x-cache: MISS
+cache-control: s-maxage=0, no-cache, no-store, must-revalidate
+gcdn-cache: PASS
+stellate-rate-limit-budget-remaining: 25
+stellate-rate-limit-rules: "IP limit";type="RequestCount";budget=30;limited=?0;remaining=25;refill=7
+stellate-rate-limit-decision: pass
+stellate-rate-limit-budget-required: 5
+x-served-by: cache-bru1480052-BRU
+cf-cache-status: DYNAMIC
+content-encoding: gzip
+CF-RAY: a4b9187c782dc89a-LAX
+
+{
+  "data" : {
+    "character" : null
+  },
+  "errors" : [ {
+    "message" : "500: Internal Server Error",
+    "locations" : [ {
+      "line" : 2,
+      "column" : 3
+    } ],
+    "path" : [ "character" ],
+    "extensions" : {
+      "code" : "INTERNAL_SERVER_ERROR",
+      "response" : {
+        "url" : "http://localhost:8080/api/character/not-a-number",
+        "status" : 500,
+        "statusText" : "Internal Server Error",
+        "body" : {
+          "error" : "Hey! you must provide an id"
+        }
+      }
+    }
+  } ]
+}

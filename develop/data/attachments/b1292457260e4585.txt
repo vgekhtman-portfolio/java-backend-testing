@@ -1,0 +1,13 @@
+HTTP/1.1 201 Created
+Date: Fri, 16 Oct 2026 18:05:53 GMT
+Content-type: application/json
+Content-length: 159
+
+{
+  "createdAt" : "2026-01-01T00:00:00Z",
+  "customerId" : "cust-1",
+  "id" : "6ce2bb14-5f5e-46e3-b908-dfa10e000194",
+  "productId" : "prod-abc",
+  "quantity" : 2,
+  "status" : "CONFIRMED"
+}

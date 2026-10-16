@@ -1,0 +1,3 @@
+SELECT quantity FROM inventory WHERE product_id = ?
+parameter: prod-abc
+result: quantity = 98

@@ -1,0 +1,1 @@
+status: Status{code=NOT_FOUND, description=product not found: no-such-product, cause=null}

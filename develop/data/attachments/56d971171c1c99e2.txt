@@ -1,0 +1,3 @@
+SELECT count(*) FROM orders WHERE product_id = ?
+parameter: absent-79599c03-1220-4c2a-ad8a-7e5baada8f3f
+result: count = 1

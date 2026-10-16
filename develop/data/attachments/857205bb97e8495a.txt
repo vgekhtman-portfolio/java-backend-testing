@@ -1,0 +1,9 @@
+POST http://localhost:32782/orders
+Accept: */*
+Content-Type: application/json
+
+{
+  "customerId" : "cust-test",
+  "productId" : "absent-79599c03-1220-4c2a-ad8a-7e5baada8f3f",
+  "quantity" : 1
+}

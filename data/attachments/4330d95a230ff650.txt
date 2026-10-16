@@ -1,0 +1,14 @@
+HTTP/1.1 201 Created
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 199
+Date: Fri, 16 Oct 2026 18:25:39 GMT
+
+{
+  "id" : "640961c9-d290-4dbe-872f-314f7ea60a47",
+  "customerId" : "db-bb1e72af-0407-4483-93de-6f5b924d72f5",
+  "productId" : "prod-abc",
+  "quantity" : 1,
+  "status" : "CONFIRMED",
+  "createdAt" : "2026-10-16T18:25:39.359266Z"
+}

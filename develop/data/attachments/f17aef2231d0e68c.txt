@@ -1,0 +1,8 @@
+POST https://rickandmortyapi.com/graphql
+Accept: */*
+Content-Type: application/json
+
+{
+  "query" : "query { character(id: 1) { name episode { name } } }",
+  "variables" : { }
+}

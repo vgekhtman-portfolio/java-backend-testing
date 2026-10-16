@@ -1,0 +1,9 @@
+HTTP/1.1 400 Bad Request
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 40
+Date: Fri, 16 Oct 2026 18:07:40 GMT
+
+{
+  "error" : "customerId must not be blank"
+}

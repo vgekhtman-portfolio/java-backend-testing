@@ -1,0 +1,5 @@
+18:05:45.010939338 received: Request served by 4d896d95b55478
+18:05:45.011686512 connected to wss://echo.websocket.org/
+18:05:45.011838977 sent: hello echo server
+18:05:45.097973899 received: hello echo server
+18:05:45.098220900 closing: test cleanup

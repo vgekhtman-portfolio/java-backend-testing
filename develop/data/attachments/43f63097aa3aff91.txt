@@ -1,0 +1,1 @@
+query($page: Int, $status: String) { characters(page: $page, filter: {status: $status}) { info { count pages } results { name status } } }

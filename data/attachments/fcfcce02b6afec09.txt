@@ -1,0 +1,46 @@
+HTTP/1.1 400 Bad Request
+Date: Fri, 16 Oct 2026 18:23:36 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: cloudflare
+expect-ct: max-age=86400, enforce
+etag: W/"b5-+t4lAtcKZeOg2B7uU05PeFwIf8w"
+vary: accept-encoding
+x-xss-protection: 1; mode=block
+access-control-max-age: 600
+access-control-allow-origin: *
+access-control-expose-headers: *
+access-control-allow-credentials: true
+access-control-allow-methods: POST, GET, HEAD, OPTIONS
+access-control-allow-headers: *
+referrer-policy: same-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+alt-svc: h3=":443"; ma=86400
+gcdn-passed-through-response: has-errors
+x-cache: MISS
+cache-control: s-maxage=0, no-cache, no-store, must-revalidate
+gcdn-cache: PASS
+stellate-rate-limit-budget-remaining: 26
+stellate-rate-limit-rules: "IP limit";type="RequestCount";budget=30;limited=?0;remaining=26;refill=7
+stellate-rate-limit-decision: pass
+stellate-rate-limit-budget-required: 5
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=HRJJTXgD%2FxTsHFtfI%2Bmct2nHG11N8lY8HyQh1az8th%2F1nxVlHbXZ8%2FYogiA6kndcmI0lR54X42GU%2FmRYMh5i1mVtc9Um48sqVjTu7YtqhhSBRaF1Q2cpBDG5yi5M%2F%2BjWHDa851rg"}]}
+x-served-by: cache-bru1480032-BRU
+cf-cache-status: DYNAMIC
+CF-RAY: a4b918791e1e7d9d-LAX
+
+{
+  "errors" : [ {
+    "message" : "Cannot query field \"thisFieldDoesNotExist\" on type \"Character\".",
+    "locations" : [ {
+      "line" : 3,
+      "column" : 5
+    } ],
+    "extensions" : {
+      "code" : "GRAPHQL_VALIDATION_FAILED"
+    }
+  } ]
+}

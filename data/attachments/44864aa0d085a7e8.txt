@@ -1,0 +1,14 @@
+HTTP/1.1 201 Created
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 174
+Date: Fri, 16 Oct 2026 18:25:43 GMT
+
+{
+  "id" : "96ed4144-2bf7-417c-aee2-e1b9c629766d",
+  "customerId" : "cust-test",
+  "productId" : "prod-abc",
+  "quantity" : 1,
+  "status" : "PAYMENT_FAILED",
+  "createdAt" : "2026-10-16T18:25:40.357888Z"
+}

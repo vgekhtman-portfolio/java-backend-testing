@@ -1,0 +1,3 @@
+SELECT id, customer_id, product_id, quantity, status, created_at FROM orders WHERE id = ?
+parameter: 640961c9-d290-4dbe-872f-314f7ea60a47
+result: OrderRow[id=640961c9-d290-4dbe-872f-314f7ea60a47, customerId=db-bb1e72af-0407-4483-93de-6f5b924d72f5, productId=prod-abc, quantity=1, status=CONFIRMED, createdAt=2026-10-16T18:25:39.359266Z]

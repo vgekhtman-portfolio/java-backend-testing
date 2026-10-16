@@ -1,0 +1,2 @@
+product_id: "prod-def"
+available_quantity: 2
