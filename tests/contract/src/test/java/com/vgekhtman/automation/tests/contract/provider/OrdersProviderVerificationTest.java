@@ -9,7 +9,7 @@ import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import com.vgekhtman.automation.tests.contract.PactFiles;
 import com.vgekhtman.automation.testutils.CustomSut;
 import com.vgekhtman.automation.testutils.CustomSutExtension;
-import io.qameta.allure.Description;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -51,10 +51,20 @@ class OrdersProviderVerificationTest {
         context.setTarget(new HttpTestTarget(service.getHost(), service.getPort()));
     }
 
-    @Description("the real orders-service honours each interaction in the consumer pact. Replays every interaction in the generated pact against the running service; provider states are set up by writing rows directly to Postgres.")
+    /**
+     * One invocation per interaction in the pact. The interaction description starts with the scenario ID
+     * ("TC-PACT-004: a request to create an order"), which names the Allure test.
+     */
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void verifyInteraction(PactVerificationContext context) {
+        String description = context.getInteraction().getDescription();
+        String id = description.substring(0, description.indexOf(": "));
+        String interaction = description.substring(id.length() + 2);
+        Allure.getLifecycle().updateTest(test -> test
+                .setName(id + ": provider: " + interaction)
+                .setDescription("The real orders-service answers the pact interaction \"" + interaction
+                        + "\" as the consumer declared it; provider states are set up by writing to Postgres directly."));
         context.verifyInteraction();
     }
 

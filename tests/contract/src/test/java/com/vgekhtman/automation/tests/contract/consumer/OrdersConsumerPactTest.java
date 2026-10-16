@@ -55,10 +55,12 @@ class OrdersConsumerPactTest {
     private static final String ISO_INSTANT = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z";
     private static final Map<String, String> JSON_CONTENT = Map.of("Content-Type", "application/json");
 
+    // The interaction descriptions start with the test ID of the provider verification that replays them
+    // (TC-PACT-004 to 006); the consumer tests above them are TC-PACT-001 to 003.
     @Pact(consumer = "orders-client")
     RequestResponsePact createOrder(PactDslWithProvider builder) {
         return builder
-                .uponReceiving("a request to create an order")
+                .uponReceiving("TC-PACT-004: a request to create an order")
                 .method("POST")
                 .path("/orders")
                 .headers(JSON_CONTENT)
@@ -92,7 +94,7 @@ class OrdersConsumerPactTest {
                         "quantity", EXISTING_ORDER.quantity(),
                         "status", EXISTING_ORDER.status(),
                         "createdAt", EXISTING_ORDER.createdAt()))
-                .uponReceiving("a request for an existing order")
+                .uponReceiving("TC-PACT-005: a request for an existing order")
                 .method("GET")
                 .path("/orders/" + EXISTING_ORDER.id())
                 .willRespondWith()
@@ -113,7 +115,7 @@ class OrdersConsumerPactTest {
     RequestResponsePact getMissingOrder(PactDslWithProvider builder) {
         return builder
                 .given("no order exists", Map.of("id", MISSING_ORDER_ID))
-                .uponReceiving("a request for an order that does not exist")
+                .uponReceiving("TC-PACT-006: a request for an order that does not exist")
                 .method("GET")
                 .path("/orders/" + MISSING_ORDER_ID)
                 .willRespondWith()
