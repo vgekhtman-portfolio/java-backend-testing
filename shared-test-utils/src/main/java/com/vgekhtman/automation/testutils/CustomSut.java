@@ -15,8 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Singleton holder for the custom SUT's docker-compose stack (postgres + wiremock + orders-service).
  * Started once per JVM - the classic Testcontainers "singleton container" pattern - and torn down by a
- * JVM shutdown hook, never per test class, so rest-custom, grpc-custom, db-verification and contract all
- * share one running stack within a test run. Use {@link CustomSutExtension} to trigger the start; use the
+ * JVM shutdown hook, never per test class, so every test class of a module shares one running stack
+ * (each module's test task is its own JVM). Use {@link CustomSutExtension} to trigger the start; use the
  * static accessors here to reach it.
  */
 public final class CustomSut {
