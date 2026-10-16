@@ -1,6 +1,6 @@
 package com.vgekhtman.automation.tests.websocketpublic.client;
 
-import io.qameta.allure.Allure;
+import com.vgekhtman.automation.testsupport.AllureEvidence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -156,7 +156,7 @@ public final class EchoWebSocketClient implements AutoCloseable {
         }
         if (!logAttached) {
             logAttached = true;
-            Allure.attachment("WebSocket message log", String.join(System.lineSeparator(), messageLog));
+            AllureEvidence.text("WebSocket message log", String.join(System.lineSeparator(), messageLog));
         }
     }
 

@@ -18,6 +18,7 @@ dependencies {
     // InventoryClient attaches each call to the Allure report.
     implementation(platform("io.qameta.allure:allure-bom:${rootProject.extra["allureVersion"]}"))
     implementation("io.qameta.allure:allure-java-commons")
+    implementation(project(":test-support"))
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitVersion")

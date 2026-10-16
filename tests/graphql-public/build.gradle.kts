@@ -3,8 +3,7 @@ val junitVersion = "6.1.3"
 
 dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("io.qameta.allure:allure-rest-assured")
-    testImplementation(project(":test-logging"))
+    testImplementation(project(":test-support"))
     // Rest-Assured needs an object mapper on the classpath to serialize the Map request bodies used here.
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")

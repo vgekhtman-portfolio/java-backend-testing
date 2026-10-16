@@ -1,4 +1,4 @@
-package com.vgekhtman.automation.testlogging;
+package com.vgekhtman.automation.testsupport;
 
 import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;

@@ -68,8 +68,9 @@ The [workflow](.github/workflows/ci.yml) runs on pushes and pull requests to `ma
    history trends carried across runs.
 
 Locally, `./gradlew allureServe` opens the same combined report; `./gradlew allureReport` writes it to
-`build/reports/allure-report`. Tests are grouped by Epic/Feature/Story, with attachments for REST and GraphQL
-exchanges, gRPC messages, the WebSocket message log and SQL queries with their results.
+`build/reports/allure-report`. Tests are grouped by Epic/Feature/Story. Every REST, GraphQL, gRPC and SQL call is a
+step in the test body (`POST /orders -> 201 Created`) that expands to its request and response, shown inline; the
+WebSocket message log is attached the same way.
 
 ## Layout
 
@@ -78,7 +79,7 @@ proto/               inventory.proto and the generated gRPC stubs
 sut/                 the custom service (orders REST API, inventory gRPC service, Flyway migrations, Dockerfile)
 docker-compose.yml   service + Postgres + WireMock (default payment stub in sut/wiremock/mappings)
 shared-test-utils/   test harness and its self-tests
-test-logging/        routes Rest-Assured's request/response logging through Logback
+test-support/        Rest-Assured logging via Logback and inline Allure evidence (requests, responses)
 tests/               one module per protocol or technique (table above)
 ```
 

@@ -21,7 +21,7 @@ include(
     "proto",
     "sut",
     "shared-test-utils",
-    "test-logging",
+    "test-support",
     "tests:rest-public",
     "tests:graphql-public",
     "tests:websocket-public",
