@@ -68,6 +68,9 @@ The [workflow](.github/workflows/ci.yml) runs on pushes and pull requests to `ma
    [`/develop/`](https://vgekhtman-portfolio.github.io/java-backend-testing/develop/), each with its own history
    trends. Pull requests keep the report as a downloadable `allure-report` artifact.
 
+A manual run (Actions -> CI -> Run workflow) takes a `scope`: `all` (default), `custom-sut` or `public-api`; the
+framework tests always run first. Only a full manual run on `main` or `develop` publishes the report.
+
 Locally, `./gradlew allureServe` opens the same combined report; `./gradlew allureReport` writes it to
 `build/reports/allure-report`. Tests are grouped by Epic/Feature/Story. Every REST, GraphQL, gRPC and SQL call is a
 step in the test body (`POST /orders -> 201 Created`) that expands to its request and response, shown inline; the
